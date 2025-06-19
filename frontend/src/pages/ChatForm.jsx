@@ -63,7 +63,6 @@ const ChatForm = () => {
   }
 };
 
-
   const current = questions[step];
 
   return (
