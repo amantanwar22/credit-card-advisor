@@ -7,7 +7,7 @@ const advisorRoutes = require('./routes/advisor');
 
 const app = express();
 
-// ✅ CORS fix: allow Vercel frontend to call Render backend
+// ✅ CORS fix for Vercel frontend
 app.use(cors({
   origin: "https://credit-card-advisor-chi.vercel.app",
   credentials: true
@@ -15,21 +15,17 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Route for card recommendations
 app.use('/api/advisor', advisorRoutes);
 
-// ✅ Health check route
+// Health check route
 app.get('/', (req, res) => {
   res.send("API is working ✅");
 });
 
-// ✅ Connect to MongoDB and start the server
 const PORT = process.env.PORT || 5001;
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+// ✅ Clean mongoose.connect without deprecated options
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
     app.listen(PORT, () => {
@@ -40,6 +36,7 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   });
+
 
 
 
